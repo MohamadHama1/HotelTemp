@@ -1,0 +1,164 @@
+ <div class="booking-page">
+      <div class="container">
+        <div class="booking-header">
+          <h1>Book Your Stay</h1>
+          <p *ngIf="room">{{ room.name }}</p>
+        </div>
+
+        <div class="booking-content" *ngIf="room">
+          <div class="room-summary">
+            <img [src]="room.imageUrl" [alt]="room.name">
+            <div class="summary-info">
+              <h3>{{ room.name }}</h3>
+              <p>{{ room.description }}</p>
+              <div class="room-details">
+                <div class="detail">
+                  <strong>Price:</strong> ${{ room.price }}/night
+                </div>
+                <div class="detail">
+                  <strong>Size:</strong> {{ room.size }}m²
+                </div>
+                <div class="detail">
+                  <strong>Max Guests:</strong> {{ room.maxGuests }}
+                </div>
+                <div class="detail">
+                  <strong>Bed Type:</strong> {{ room.bedType }}
+                </div>
+              </div>
+              <div class="amenities">
+                <h4>Amenities:</h4>
+                <div class="amenity-list">
+                  <span class="amenity" *ngFor="let amenity of room.amenities">{{ amenity }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="booking-form" *ngIf="!bookingConfirmed">
+            <h3>Guest Information</h3>
+            <form #bookingForm="ngForm" (ngSubmit)="submitBooking(bookingForm)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name *</label>
+                  <input type="text" id="firstName" name="firstName" 
+                         [(ngModel)]="booking.firstName" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name *</label>
+                  <input type="text" id="lastName" name="lastName" 
+                         [(ngModel)]="booking.lastName" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" 
+                       [(ngModel)]="booking.email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" 
+                       [(ngModel)]="booking.phone" required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="checkIn">Check-in Date *</label>
+                  <input type="date" id="checkIn" name="checkIn" 
+                         [(ngModel)]="booking.checkIn" required 
+                         [min]="minDate" (change)="calculateTotal()">
+                </div>
+                <div class="form-group">
+                  <label for="checkOut">Check-out Date *</label>
+                  <input type="date" id="checkOut" name="checkOut" 
+                         [(ngModel)]="booking.checkOut" required 
+                         [min]="booking.checkIn" (change)="calculateTotal()">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="guests">Number of Guests *</label>
+                <select id="guests" name="guests" [(ngModel)]="booking.guests" required>
+                  <option value="1">1 Guest</option>
+                  <option value="2">2 Guests</option>
+                  <option value="3" *ngIf="room.maxGuests >= 3">3 Guests</option>
+                  <option value="4" *ngIf="room.maxGuests >= 4">4 Guests</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="specialRequests">Special Requests</label>
+                <textarea id="specialRequests" name="specialRequests" 
+                          [(ngModel)]="booking.specialRequests" 
+                          placeholder="Any special requests or requirements..."></textarea>
+              </div>
+
+              <div class="booking-summary" *ngIf="totalCost > 0">
+                <h4>Booking Summary</h4>
+                <div class="summary-item">
+                  <span>Room Rate ({{ numberOfNights }} night(s)):</span>
+                  <span>${{ room.price }} × {{ numberOfNights }} = ${{ totalCost }}</span>
+                </div>
+                <div class="summary-item">
+                  <span>Taxes & Fees:</span>
+                  <span>${{ taxesAndFees }}</span>
+                </div>
+                <div class="summary-total">
+                  <strong>Total: ${{ totalCost + taxesAndFees }}</strong>
+                </div>
+              </div>
+
+              <button type="submit" class="submit-btn" [disabled]="!bookingForm.valid">
+                Confirm Booking
+              </button>
+            </form>
+          </div>
+
+          <div class="confirmation" *ngIf="bookingConfirmed">
+            <div class="confirmation-content">
+              <div class="success-icon">✓</div>
+              <h3>Booking Confirmed!</h3>
+              <p>Thank you for your reservation. Your booking has been confirmed.</p>
+              
+              <div class="confirmation-details">
+                <h4>Booking Details:</h4>
+                <div class="detail-row">
+                  <span>Guest:</span>
+                  <span>{{ booking.firstName }} {{ booking.lastName }}</span>
+                </div>
+                <div class="detail-row">
+                  <span>Email:</span>
+                  <span>{{ booking.email }}</span>
+                </div>
+                <div class="detail-row">
+                  <span>Room:</span>
+                  <span>{{ room.name }}</span>
+                </div>
+                <div class="detail-row">
+                  <span>Check-in:</span>
+                  <span>{{ booking.checkIn | date:'fullDate' }}</span>
+                </div>
+                <div class="detail-row">
+                  <span>Check-out:</span>
+                  <span>{{ booking.checkOut | date:'fullDate' }}</span>
+                </div>
+                <div class="detail-row">
+                  <span>Guests:</span>
+                  <span>{{ booking.guests }}</span>
+                </div>
+                <div class="detail-row total">
+                  <span>Total Amount:</span>
+                  <span>${{ totalCost + taxesAndFees }}</span>
+                </div>
+              </div>
+
+              <div class="confirmation-actions">
+                <button class="btn-primary" (click)="goHome()">Back to Home</button>
+                <button class="btn-secondary" (click)="bookAnother()">Book Another Room</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,115 @@
+<div class="rooms-page">
+  <div class="container">
+    <div class="header">
+      <h1>Our Rooms</h1>
+      <p>Choose from our selection of luxury accommodations</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="maxPrice">Max Price per Night:</label>
+        <input type="range" id="maxPrice" [(ngModel)]="filters.maxPrice" 
+               min="0" max="800" step="10" (input)="applyFilters()">
+        <span class="price-display">${{ filters.maxPrice }}</span>
+      </div>
+
+      <div class="filter-group">
+        <label for="guests">Number of Guests:</label>
+        <select id="guests" [(ngModel)]="filters.guests" (change)="applyFilters()">
+          <option value="0">Any</option>
+          <option value="1">1 Guest</option>
+          <option value="2">2 Guests</option>
+          <option value="3">3 Guests</option>
+          <option value="4">4+ Guests</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="bedType">Bed Type:</label>
+        <select id="bedType" [(ngModel)]="filters.bedType" (change)="applyFilters()">
+          <option value="">Any</option>
+          <option value="King">King</option>
+          <option value="Queen">Queen</option>
+          <option value="Two Queens">Two Queens</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="amenities">Amenities:</label>
+        <select id="amenities" [(ngModel)]="filters.amenity" (change)="applyFilters()">
+          <option value="">Any</option>
+          <option value="Ocean View">Ocean View</option>
+          <option value="Balcony">Balcony</option>
+          <option value="Jacuzzi">Jacuzzi</option>
+          <option value="Work Desk">Work Desk</option>
+          <option value="Mini Bar">Mini Bar</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="size">Room Size:</label>
+        <select id="size" [(ngModel)]="filters.size" (change)="applyFilters()">
+          <option value="">Any Size</option>
+          <option value="small">Small (< 30 sqm)</option>
+          <option value="medium">Medium (30-50 sqm)</option>
+          <option value="large">Large (> 50 sqm)</option>
+        </select>
+      </div>
+
+      <button class="clear-filters" (click)="clearFilters()">Clear Filters</button>
+    </div>
+
+    <!-- Results -->
+    <div class="results-info">
+      <p>{{ filteredRooms.length }} room(s) found</p>
+    </div>
+
+    <!-- Rooms List -->
+    <div class="rooms-grid">
+      <div class="room-card" *ngFor="let room of filteredRooms">
+        <div class="availability-badge" *ngIf="room.available">Available</div>
+        <img [src]="room.imageUrl" [alt]="room.name">
+        
+        <div class="room-info">
+          <div class="room-header">
+            <h3>{{ room.name }}</h3>
+            <button class="heart-icon">♡</button>
+          </div>
+          
+          <p>{{ room.description }}</p>
+          
+          <div class="room-specs">
+            <div class="spec">
+              <strong>Size:</strong> {{ room.size }}m² • <strong>Guests:</strong> Up to {{ room.maxGuests }} • <strong>Bed:</strong> {{ room.bedType }}
+            </div>
+          </div>
+
+          <div class="amenities">
+            <h4>Amenities:</h4>
+            <div class="amenity-tags">
+              <span class="tag" *ngFor="let amenity of room.amenities">{{ amenity }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOVED: Room footer is now a separate section on the right -->
+        <div class="room-footer">
+          <div class="price-section">
+            <div class="price">
+              <span class="amount">${{ room.price }}</span>
+              <span class="period">per night</span>
+            </div>
+            <div class="price-note">for 1 room, 2 guests<br>inclusive taxes and fees</div>
+          </div>
+          <a [routerLink]="['/booking', room.id]" class="book-btn">Book Now</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-results" *ngIf="filteredRooms.length === 0">
+      <h3>No rooms found</h3>
+      <p>Try adjusting your filters to see more options.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+ <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Welcome to Grand Hotel</h1>
+        <p>Experience luxury and comfort in the heart of the city</p>
+        <a routerLink="/rooms" class="cta-button">Book Your Stay</a>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800&h=600&fit=crop" alt="Grand Hotel">
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-text">
+            <h2>About Grand Hotel</h2>
+            <p>
+              Since 1925, Grand Hotel has been a beacon of luxury and hospitality. 
+              Our commitment to excellence and attention to detail has made us the 
+              preferred choice for discerning travelers from around the world.
+            </p>
+            <p>
+              Located in the heart of the city, we offer unparalleled access to 
+              business districts, cultural attractions, and fine dining. Our 
+              world-class amenities and personalized service ensure an 
+              unforgettable experience.
+            </p>
+            <div class="features">
+              <div class="feature">
+                <h3>5-Star Service</h3>
+                <p>Exceptional service tailored to your needs</p>
+              </div>
+              <div class="feature">
+                <h3>Prime Location</h3>
+                <p>In the heart of the city's business district</p>
+              </div>
+              <div class="feature">
+                <h3>Luxury Amenities</h3>
+                <p>Spa, fitness center, fine dining, and more</p>
+              </div>
+            </div>
+          </div>
+          <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&h=400&fit=crop" alt="Hotel Lobby">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section class="rooms-preview">
+      <div class="container">
+        <h2>Our Rooms</h2>
+        <div class="rooms-grid">
+          <div class="room-card" *ngFor="let room of featuredRooms">
+            <img [src]="room.imageUrl" [alt]="room.name">
+            <div class="room-info">
+              <h3>{{ room.name }}</h3>
+              <p>{{ room.description }}</p>
+              <div class="room-details">
+                <span class="price">${{ room.price }}/night</span>
+                <span class="guests">{{ room.maxGuests }} guests</span>
+              </div>
+              <a [routerLink]="['/booking', room.id]" class="book-btn">Book Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="view-all">
+          <a routerLink="/rooms" class="view-all-btn">View All Rooms</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="contact" class="location">
+      <div class="container">
+        <h2>Location & Contact</h2>
+        <div class="location-content">
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.2412634994897!2d-73.98656492346618!3d40.75889537138558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square%2C%20New%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1635959425215!5m2!1sen!2s"
+              width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
+          </div>
+          <div class="contact-info">
+            <h3>Contact Information</h3>
+            <div class="contact-item">
+              <strong>Address:</strong>
+              <p>123 Grand Avenue, New York, NY 10001</p>
+            </div>
+            <div class="contact-item">
+              <strong>Phone:</strong>
+              <p>+1 (555) 123-4567</p>
+            </div>
+            <div class="contact-item">
+              <strong>Email:</strong>
+              <p>info grandhotel.com</p>
+            </div>
+            <div class="contact-item">
+              <strong>Check-in:</strong>
+              <p>3:00 PM</p>
+            </div>
+            <div class="contact-item">
+              <strong>Check-out:</strong>
+              <p>11:00 AM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
